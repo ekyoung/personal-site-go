@@ -1,0 +1,87 @@
+//== Media queries breakpoints
+//
+//## Define the breakpoints at which your layout will change, adapting to different screen sizes.
+
+// Extra small screen / phone
+//** Deprecated `@screen-xs` as of v3.0.1
+@screen-xs:                  480px;
+//** Deprecated `@screen-xs-min` as of v3.2.0
+@screen-xs-min:              @screen-xs;
+//** Deprecated `@screen-phone` as of v3.0.1
+@screen-phone:               @screen-xs-min;
+
+// Small screen / tablet
+//** Deprecated `@screen-sm` as of v3.0.1
+@screen-sm:                  768px;
+@screen-sm-min:              @screen-sm;
+//** Deprecated `@screen-tablet` as of v3.0.1
+@screen-tablet:              @screen-sm-min;
+
+// Medium screen / desktop
+//** Deprecated `@screen-md` as of v3.0.1
+@screen-md:                  992px;
+@screen-md-min:              @screen-md;
+//** Deprecated `@screen-desktop` as of v3.0.1
+@screen-desktop:             @screen-md-min;
+
+// Large screen / wide desktop
+//** Deprecated `@screen-lg` as of v3.0.1
+@screen-lg:                  1200px;
+@screen-lg-min:              @screen-lg;
+//** Deprecated `@screen-lg-desktop` as of v3.0.1
+@screen-lg-desktop:          @screen-lg-min;
+
+// So media queries don't overlap when required, provide a maximum
+@screen-xs-max:              (@screen-sm-min - 1);
+@screen-sm-max:              (@screen-md-min - 1);
+@screen-md-max:              (@screen-lg-min - 1);
+
+body {
+  padding-top: 81px;
+  padding-bottom: 30px;
+}
+
+.jumbotron {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+/*-------------------------------------------------------------------------------------------
+Left Nav
+-------------------------------------------------------------------------------------------*/
+
+.ey-leftNav {
+  /* Copied from the Flatly dropdown-menu */
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-clip: padding-box;
+
+  /* Copied from bs-sidenav on the bootstrap site so that the square corners on the higlighted items don't mess with the rounded corners of the ul*/
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  > li > a {
+    /* Copied from the Flatly dropdown-menu */
+    color: #7b8a8b;
+  }
+
+  > li > a:hover,
+  > li > a:focus {
+    /* Copied from the Flatly dropdown-menu */
+    color: #ffffff;
+    background-color: #2c3e50;
+  }
+
+  /* Keep the menu from getting wider when you scroll down and it gets position: fixed */
+  width: 130px;
+
+  @media screen and (min-width: @screen-lg-min) {
+    width: 163px;
+  }
+}
+
+

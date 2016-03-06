@@ -1,0 +1,80 @@
+{{ define "root/index.tmpl" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .title }} - EthanYoung.us</title>
+    <link rel="stylesheet" href="/browser/common/bootstrap.min.css">
+    <link rel="stylesheet" href="/browser/common/style.css">
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Ethan Young</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/">Home</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trips <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/trips">All Trips</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/trips/alaska-2005">Alaska Motorcycle Trip 2005</a></li>
+                            <li><a href="/trips/southwest-2007">Southwest Motorcycle Trip 2007</a></li>
+                            <li><a href="/trips/mexico-2013">Playa del Carmen, Mexico 2013</a></li>
+                            <li><a href="/trips/moab-may-2006">Moab May 2006</a></li>
+                            <li><a href="/trips/uncle-bud-hut-2007">Uncle Bud Hut Ski Trip</a></li>
+                            <li><a href="/trips/betty-bear-hut-2006">Betty Bear Hut Ski Trip</a></li>
+                            <li><a href="/trips/bingham-canyon-mine">Bingham Canyon Mine</a></li>
+                            <li><a href="/trips/dinosaur-nm-2005">Dinosaur National Monument</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/about-this-site">About This Site</a></li>
+                    <li><a href="/resume">Resume</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Ethan Young</h1>
+            <p>
+                I built this site mostly as a hobby. Yes, I am a big enough nerd to want to build a website on the weekends for fun.
+            </p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2><a href="/trips">Trips</a></h2>
+                <p>
+                    This section contains pictures from some of the trips I've taken. Most of them involve skiing and motorcycle touring: my two main hobbies.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h2><a href="/about-this-site">About This Site</a></h2>
+                <p>
+                    Anyone interested in how this site was built can get some information in this section.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h2><a href="/resume">Resume</a></h2>
+                <p>
+                    I'm a software developer specializing in the MEAN and Microsoft stacks. I'll keep my resume up to date when I'm actively looking for a job, but it may be out of date most of the time.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="/browser/common/bootstrap-3.3.5.min.js"></script>
+</body>
+</html>
+{{ end }}
