@@ -1,3 +1,4 @@
+{{ define "_shared/main" }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,11 +9,12 @@
     <link rel="stylesheet" href="/browser/common/style.css">
 </head>
 <body>
-    {{ template "header" . }}
+    {{ template "_shared/header" . }}
     <div class="container">
-        {{ template "content" }}
+        {{ template "content.slot" }}
     </div>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="/browser/common/bootstrap-3.3.5.min.js"></script>
 </body>
 </html>
+{{ end }}
