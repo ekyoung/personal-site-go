@@ -48,7 +48,7 @@ func main() {
 func createMyRender() multitemplate.Render {
 	r := multitemplate.New()
 	r.AddFromFiles("home", "server/root/index.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")
-	r.AddFromFiles("trips", "server/trips/index.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")
+	r.AddFromFiles("trips", "server/trips/index.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl", "server/trips/left-nav.partial.tmpl")
 	r.AddFromFiles("about-this-site", "server/root/about-this-site.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")
 	r.AddFromFiles("resume", "server/root/resume.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")
 
