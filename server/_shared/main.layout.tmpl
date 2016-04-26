@@ -7,14 +7,17 @@
     <title>{{ .title }} - EthanYoung.us</title>
     <link rel="stylesheet" href="/browser/common/bootstrap.min.css">
     <link rel="stylesheet" href="/browser/common/style.css">
+    {{ template "head.slot" . }}
 </head>
 <body>
     {{ template "_shared/header" . }}
     <div class="container">
-        {{ template "content.slot" }}
+        {{ template "content.slot" . }}
     </div>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="/browser/common/bootstrap-3.3.5.min.js"></script>
 </body>
 </html>
 {{ end }}
+
+{{ define "head.slot" }}{{end}}

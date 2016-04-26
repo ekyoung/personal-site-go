@@ -28,6 +28,15 @@ func main() {
 		})
 	})
 
+	r.GET("/trips/:tripId", func(c *gin.Context) {
+		tripId := c.Param("tripId")
+		c.HTML(http.StatusOK, "trips/gallery", gin.H{
+			"title":         "Trips",
+			"isTripsActive": true,
+			"trip":          tripId,
+		})
+	})
+
 	r.GET("/about-this-site", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "about-this-site", gin.H{
 			"title":                 "About This Site",
@@ -49,6 +58,7 @@ func createMyRender() multitemplate.Render {
 	r := multitemplate.New()
 	r.AddFromFiles("home", "server/root/index.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")
 	r.AddFromFiles("trips", "server/trips/index.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl", "server/trips/left-nav.partial.tmpl")
+	r.AddFromFiles("trips/gallery", "server/trips/gallery.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl", "server/trips/left-nav.partial.tmpl")
 	r.AddFromFiles("about-this-site", "server/root/about-this-site.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")
 	r.AddFromFiles("resume", "server/root/resume.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")
 
