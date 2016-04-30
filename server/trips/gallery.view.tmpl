@@ -1,22 +1,22 @@
-{{ template "_shared/main" . }}
+[[ template "_shared/main" . ]]
 
-{{ define "head.slot" }}
+[[ define "head.slot" ]]
 <link rel="stylesheet" href="/browser/trips/image-gallery/image-gallery.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.min.js"></script>
 <script src="/browser/trips/xml2json.js"></script>
 <script src="/browser/trips/image-gallery/gallery-controllers.js"></script>
-{{ end }}
+[[ end ]]
 
-{{ define "content.slot" }}
+[[ define "content.slot" ]]
 <div class="row">
     <div class="visible-md visible-lg col-md-2">
-        {{ template "trips/left-nav" }}
+        [[ template "trips/left-nav" ]]
     </div>
     <div class="col-sm-12 col-md-10" role="main">
     	<h1>
-    		{{ .trip.Name }}
+    		[[ .trip.Name ]]
     	</h1>
     </div>
 </div>
-{{ end }}
+[[ end ]]

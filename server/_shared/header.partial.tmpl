@@ -1,4 +1,4 @@
-{{ define "_shared/header" }}
+[[ define "_shared/header" ]]
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -12,8 +12,8 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li {{ if .isHomeActive }}class="active"{{ end }}><a href="/">Home</a></li>
-                <li class="dropdown{{ if .isTripsActive }} active{{ end }}">
+                <li [[ if .isHomeActive ]]class="active"[[ end ]]><a href="/">Home</a></li>
+                <li class="dropdown[[ if .isTripsActive ]] active[[ end ]]">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Trips <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="/trips">All Trips</a></li>
@@ -28,10 +28,10 @@
                         <li><a href="/trips/dinosaur-nm-2005">Dinosaur National Monument</a></li>
                     </ul>
                 </li>
-                <li {{ if .isAboutThisSiteActive }}class="active"{{ end }}><a href="/about-this-site">About This Site</a></li>
-                <li {{ if .isResumeActive }}class="active"{{ end }}><a href="/resume">Resume</a></li>
+                <li [[ if .isAboutThisSiteActive ]]class="active"[[ end ]]><a href="/about-this-site">About This Site</a></li>
+                <li [[ if .isResumeActive ]]class="active"[[ end ]]><a href="/resume">Resume</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </div>
-{{ end }}
+[[ end ]]
