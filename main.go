@@ -5,6 +5,8 @@ import (
 
 	"github.com/gin-gonic/contrib/renders/multitemplate"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ekyoung/personal-site-go/lib/trips"
 )
 
 func main() {
@@ -30,10 +32,14 @@ func main() {
 
 	r.GET("/trips/:tripId", func(c *gin.Context) {
 		tripId := c.Param("tripId")
+
+		tripRepo := trips.NewTripRepository()
+		trip := tripRepo.Lookup(tripId)
+
 		c.HTML(http.StatusOK, "trips/gallery", gin.H{
 			"title":         "Trips",
 			"isTripsActive": true,
-			"trip":          tripId,
+			"trip":          trip,
 		})
 	})
 
