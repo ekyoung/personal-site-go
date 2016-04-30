@@ -17,6 +17,32 @@
     	<h1>
     		[[ .trip.Name ]]
     	</h1>
+    	<script type="text/javascript">
+	         angular.module('galleryApp')
+    	        .value('indexFileUrl', '[[ .trip.Slides.IndexFileUrl ]]')
+        	    .value('rootUrl', '[[ .trip.Slides.RootUrl ]]');
+    	</script>
+    	<div ng-app="galleryApp" ng-controller="galleryController">
+    		<div ng-show="showLoading">
+    			<h3>Loading...</h3>
+    			<p>
+    				This will just take a second.
+    			</p>
+    		</div>
+    		<div ng-hide="showLoading">
+    			<div ng-repeat="slide in slides" class="thumbnailContainer">
+    				<table cellpadding="0" cellspacing="0">
+    					<tr>
+    						<td>
+    							<a ng-href="{{rootUrl}}/WebSize/{{slide.FileName}}">
+									<img title='{{slide.Title}} {{slide.DateTaken | date:"medium"}}' ng-src='{{rootUrl}}/Thumbnails/{{slide.FileName}}' alt='{{slide.Title}} {{slide.DateTaken | date:"medium"}}' style='border-width:0;' />
+								</a>
+    						</td>
+    					</tr>
+    				</table>
+    			</div>
+    		</div>
+    	</div>
     </div>
 </div>
 [[ end ]]
