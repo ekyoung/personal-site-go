@@ -45,6 +45,19 @@ func main() {
 		})
 	})
 
+	r.GET("/trips/:tripId/slide-show", func(c *gin.Context) {
+		tripId := c.Param("tripId")
+
+		tripRepo := trips.NewTripRepository()
+		trip := tripRepo.Lookup(tripId)
+
+		c.HTML(http.StatusOK, "trips/slide-show", gin.H{
+			"title":         "Trips",
+			"isTripsActive": true,
+			"trip":          trip,
+		})
+	})
+
 	r.GET("/about-this-site", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "about-this-site", gin.H{
 			"title":                 "About This Site",
@@ -67,6 +80,7 @@ func createMyRender() multitemplate.Render {
 	r.Add("home", template.Must(template.New("index.view.tmpl").Delims("[[", "]]").ParseFiles("server/root/index.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")))
 	r.Add("trips", template.Must(template.New("index.view.tmpl").Delims("[[", "]]").ParseFiles("server/trips/index.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl", "server/trips/left-nav.partial.tmpl")))
 	r.Add("trips/gallery", template.Must(template.New("gallery.view.tmpl").Delims("[[", "]]").ParseFiles("server/trips/gallery.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl", "server/trips/left-nav.partial.tmpl")))
+	r.Add("trips/slide-show", template.Must(template.New("slide-show.view.tmpl").Delims("[[", "]]").ParseFiles("server/trips/slide-show.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl", "server/trips/left-nav.partial.tmpl")))
 	r.Add("about-this-site", template.Must(template.New("about-this-site.view.tmpl").Delims("[[", "]]").ParseFiles("server/root/about-this-site.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")))
 	r.Add("resume", template.Must(template.New("resume.view.tmpl").Delims("[[", "]]").ParseFiles("server/root/resume.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")))
 

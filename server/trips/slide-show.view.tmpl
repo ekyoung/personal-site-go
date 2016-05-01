@@ -1,0 +1,29 @@
+[[ template "_shared/main" . ]]
+
+[[ define "head.slot" ]]
+<link rel="stylesheet" href="/browser/trips/slide-show/slide-show.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.min.js"></script>
+<script src="/browser/trips/xml2json.js"></script>
+<script src="/browser/trips/slide-show/slide-show-app.js"></script>
+<script src="/browser/trips/slide-show/slide-show-controllers.js"></script>
+[[ end ]]
+
+[[ define "content.slot" ]]
+<div class="row">
+    <div class="visible-md visible-lg col-md-2">
+        [[ template "trips/left-nav" ]]
+    </div>
+    <div class="col-sm-12 col-md-10" role="main">
+    	<h1>
+    		[[ .trip.Name ]]
+    	</h1>
+    	<script type="text/javascript">
+	         angular.module('slideShowApp')
+    	        .value('slideShowIndexFileUrl', '[[ .trip.Slides.IndexFileUrl ]]')
+        	    .value('slideShowRootUrl', '[[ .trip.Slides.RootUrl ]]');
+    	</script>
+    	<div ng-app="slideShowApp" ng-view></div>
+    </div>
+</div>
+[[ end ]]
