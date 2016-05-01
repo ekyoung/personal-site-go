@@ -1,10 +1,14 @@
 package trips
 
+import (
+    "html/template"
+)
+
 type Trip struct {
     Id          string
     Name        string
     Image       Image
-    Description string
+    Description template.HTML
     Slides      SlidesInfo
 }
 
