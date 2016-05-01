@@ -7,6 +7,23 @@
     </div>
     <div class="col-sm-12 col-md-10" role="main">
         <h1>Trips</h1>
+        [[ range $trip := .trips ]]
+            <div class="media">
+                <a class="pull-left hidden-xs" href="/trips/[[ $trip.Id ]]">
+                    <img class="media-object" alt="[[ $trip.Image.AltText ]]" src="/browser/trips/index-images/[[ $trip.Id ]]/[[ $trip.Image.FileName ]]" />
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading">
+                        [[ $trip.Name ]]
+                        <a href="/trips/[[ $trip.Id ]]">[Gallery]</a>
+                        <a href="/trips/[[ $trip.Id ]]/slide-show">[Slide Show]</a>
+                    </h4>
+                    <p> 
+                        [[ $trip.Description ]]           
+                    </p>
+                </div>
+            </div>
+        [[ end ]]
         <div class="media">
             <a class="pull-left hidden-xs" href="/trips/alaska-2005">
                 <img class="media-object" alt="My motorcycle at the Arctic Circle at midnight." src="/browser/trips/index-images/alaska-2005/arctic-circle.jpg" />

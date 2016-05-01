@@ -26,9 +26,13 @@ func main() {
 	})
 
 	r.GET("/trips", func(c *gin.Context) {
+		tripRepo := trips.NewTripRepository()
+		trips := tripRepo.All()
+
 		c.HTML(http.StatusOK, "trips", gin.H{
 			"title":         "Trips",
 			"isTripsActive": true,
+			"trips":         trips,
 		})
 	})
 
