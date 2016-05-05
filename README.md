@@ -1,2 +1,3 @@
 # personal-site-go
-My personal website build in Go. www.ethanyoung.us
+
+My personal website built in Go. www.ethanyoung.us
