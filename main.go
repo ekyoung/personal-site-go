@@ -1,6 +1,9 @@
 package main
 
 import (
+    "errors"
+    "fmt"
+
     "net/http"
 
     "html/template"
@@ -12,13 +15,26 @@ import (
 )
 
 func main() {
-    r := gin.Default()
+    r := gin.New()
+    r.Use(gin.Logger())
+    r.Use(HandleErrors())
 
     r.Static("/browser", "./browser")
 
     r.HTMLRender = createMyRender()
 
     r.GET("/", func(c *gin.Context) {
+        if false {
+            panic("Aw, snap!")
+
+        }
+
+        if false {
+            c.Error(errors.New("This is an error, not a panic.")) //Add an error to the list for the global error handler to deal with
+            c.Abort()                                             //Don't run any subsequent handlers
+            return                                                //Stop executing this handler
+        }
+
         c.HTML(http.StatusOK, "home", gin.H{
             "title":        "Home",
             "isHomeActive": true,
@@ -89,4 +105,37 @@ func createMyRender() multitemplate.Render {
     r.Add("resume", template.Must(template.New("resume.view.tmpl").Delims("[[", "]]").ParseFiles("server/root/resume.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")))
 
     return r
+}
+
+func HandleErrors() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        defer func() {
+            if err := recover(); err != nil {
+                fmt.Println("Handling a panic.")
+
+                fmt.Println(err)
+
+                //In a website, this would really be c.HTML with a pretty error page
+                c.JSON(500, gin.H{
+                    "status":  500,
+                    "message": "Whomp, whomp! Panic!",
+                })
+            }
+        }()
+        c.Next() // execute all the handlers
+
+        //Handle any errors collected
+        //The gin.Logger middleware already prints errors so this is redundant
+        for _, value := range c.Errors {
+            fmt.Println("Collected error: " + value.Error())
+        }
+
+        if len(c.Errors) > 0 {
+            //In a website, this would really be c.HTML with a pretty error page
+            c.JSON(500, gin.H{
+                "status":  500,
+                "message": "Whomp, whomp! Server error!",
+            })
+        }
+    }
 }
