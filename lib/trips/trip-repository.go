@@ -5,13 +5,13 @@ import (
 )
 
 type TripRepository struct {
-    allTrips []Trip
+    allTrips []*Trip
 }
 
 func NewTripRepository() *TripRepository {
-    allTrips := []Trip{}
+    allTrips := []*Trip{}
 
-    allTrips = append(allTrips, Trip{
+    allTrips = append(allTrips, &Trip{
         Id:   "alaska-2005",
         Name: "Alaska 2005",
         Image: Image{
@@ -28,7 +28,7 @@ func NewTripRepository() *TripRepository {
         },
     })
 
-    allTrips = append(allTrips, Trip{
+    allTrips = append(allTrips, &Trip{
         Id:   "southwest-2007",
         Name: "Southwest 2007",
         Image: Image{
@@ -42,7 +42,7 @@ func NewTripRepository() *TripRepository {
         },
     })
 
-    allTrips = append(allTrips, Trip{
+    allTrips = append(allTrips, &Trip{
         Id:   "mexico-2013",
         Name: "Mexico 2013",
         Image: Image{
@@ -57,7 +57,7 @@ func NewTripRepository() *TripRepository {
         },
     })
 
-    allTrips = append(allTrips, Trip{
+    allTrips = append(allTrips, &Trip{
         Id:   "moab-may-2006",
         Name: "Moab May 2006",
         Image: Image{
@@ -75,7 +75,7 @@ func NewTripRepository() *TripRepository {
         },
     })
 
-    allTrips = append(allTrips, Trip{
+    allTrips = append(allTrips, &Trip{
         Id:   "uncle-bud-hut-2007",
         Name: "Uncle Bud Hut 2007",
         Image: Image{
@@ -91,7 +91,7 @@ func NewTripRepository() *TripRepository {
         },
     })
 
-    allTrips = append(allTrips, Trip{
+    allTrips = append(allTrips, &Trip{
         Id:   "betty-bear-hut-2006",
         Name: "Betty Bear Hut 2006",
         Image: Image{
@@ -108,7 +108,7 @@ func NewTripRepository() *TripRepository {
         },
     })
 
-    allTrips = append(allTrips, Trip{
+    allTrips = append(allTrips, &Trip{
         Id:   "bingham-canyon-mine",
         Name: "Bingham Canyon Mine",
         Image: Image{
@@ -124,7 +124,7 @@ func NewTripRepository() *TripRepository {
         },
     })
 
-    allTrips = append(allTrips, Trip{
+    allTrips = append(allTrips, &Trip{
         Id:   "dinosaur-nm-2005",
         Name: "Dinosaur NM 2005",
         Image: Image{
@@ -148,17 +148,16 @@ func NewTripRepository() *TripRepository {
     }
 }
 
-func (repo *TripRepository) All() []Trip {
+func (repo *TripRepository) All() []*Trip {
     return repo.allTrips
 }
 
-func (repo *TripRepository) Lookup(id string) Trip {
+func (repo *TripRepository) Lookup(id string) *Trip {
     for _, value := range repo.allTrips {
         if value.Id == id {
             return value
         }
     }
 
-    var result Trip
-    return result
+    return nil
 }

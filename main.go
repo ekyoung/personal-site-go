@@ -63,6 +63,11 @@ func main() {
         tripRepo := trips.NewTripRepository()
         trip := tripRepo.Lookup(tripId)
 
+        if trip == nil {
+            renderPageNotFound(c)
+            return
+        }
+
         c.HTML(http.StatusOK, "trips/gallery", gin.H{
             "title":         "Trips",
             "isTripsActive": true,
@@ -75,6 +80,11 @@ func main() {
 
         tripRepo := trips.NewTripRepository()
         trip := tripRepo.Lookup(tripId)
+
+        if trip == nil {
+            renderPageNotFound(c)
+            return
+        }
 
         c.HTML(http.StatusOK, "trips/slide-show", gin.H{
             "title":         "Trips",
@@ -104,9 +114,7 @@ func main() {
     })
 
     r.NoRoute(func(c *gin.Context) {
-        c.HTML(http.StatusNotFound, "page-not-found", gin.H{
-            "title": "Page Not Found",
-        })
+        renderPageNotFound(c)
     })
 
     r.Run() // listen and server on 0.0.0.0:8080
@@ -124,4 +132,10 @@ func createMyRender() multitemplate.Render {
     r.Add("page-not-found", template.Must(template.New("page-not-found.view.tmpl").Delims("[[", "]]").ParseFiles("server/root/page-not-found.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")))
 
     return r
+}
+
+func renderPageNotFound(c *gin.Context) {
+    c.HTML(http.StatusNotFound, "page-not-found", gin.H{
+        "title": "Page Not Found",
+    })
 }
