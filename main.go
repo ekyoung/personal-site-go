@@ -1,15 +1,11 @@
 package main
 
 import (
-    "io"
-    "log"
-    "net/http"
-    "net/http/httputil"
-
+    "errors"
     "html/template"
+    "net/http"
 
-    "github.com/go-errors/errors"
-
+    "github.com/ekyoung/gin-nice-recovery"
     "github.com/gin-gonic/contrib/renders/multitemplate"
     "github.com/gin-gonic/gin"
 
@@ -19,7 +15,7 @@ import (
 func main() {
     r := gin.New()
     r.Use(gin.Logger())
-    r.Use(PrettyPanic("error", gin.H{
+    r.Use(nice.Recovery("error", gin.H{
         "title": "Error",
     }))
 
@@ -121,31 +117,4 @@ func createMyRender() multitemplate.Render {
     r.Add("error", template.Must(template.New("error.view.tmpl").Delims("[[", "]]").ParseFiles("server/root/error.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")))
 
     return r
-}
-
-func PrettyPanic(name string, obj interface{}) gin.HandlerFunc {
-    return PrettyPanicWithWriter(name, obj, gin.DefaultErrorWriter)
-}
-
-func PrettyPanicWithWriter(name string, obj interface{}, out io.Writer) gin.HandlerFunc {
-    var logger *log.Logger
-    if out != nil {
-        logger = log.New(out, "\n\n\x1b[31m", log.LstdFlags)
-    }
-
-    return func(c *gin.Context) {
-        defer func() {
-            if err := recover(); err != nil {
-                if logger != nil {
-                    httprequest, _ := httputil.DumpRequest(c.Request, false)
-                    goErr := errors.Wrap(err, 3)
-                    reset := string([]byte{27, 91, 48, 109})
-                    logger.Printf("[PrettyPanic] panic recovered:\n\n%s%s\n\n%s%s", httprequest, goErr.Error(), goErr.Stack(), reset)
-                }
-
-                c.HTML(http.StatusInternalServerError, name, obj)
-            }
-        }()
-        c.Next() // execute all the handlers
-    }
 }
