@@ -4,11 +4,16 @@ import (
     "html/template"
 )
 
-type TripRepository struct {
+type TripRepository interface {
+    All() []*Trip
+    Lookup(string) *Trip
+}
+
+type HardcodedTripRepository struct {
     allTrips []*Trip
 }
 
-func NewTripRepository() *TripRepository {
+func NewHardcodedTripRepository() *HardcodedTripRepository {
     allTrips := []*Trip{}
 
     allTrips = append(allTrips, &Trip{
@@ -143,16 +148,16 @@ func NewTripRepository() *TripRepository {
         },
     })
 
-    return &TripRepository{
+    return &HardcodedTripRepository{
         allTrips: allTrips,
     }
 }
 
-func (repo *TripRepository) All() []*Trip {
+func (repo *HardcodedTripRepository) All() []*Trip {
     return repo.allTrips
 }
 
-func (repo *TripRepository) Lookup(id string) *Trip {
+func (repo *HardcodedTripRepository) Lookup(id string) *Trip {
     for _, value := range repo.allTrips {
         if value.Id == id {
             return value

@@ -7,11 +7,18 @@ import (
     "github.com/gin-gonic/contrib/renders/multitemplate"
     "github.com/gin-gonic/gin"
 
+    libTrips "github.com/ekyoung/personal-site-go/lib/trips"
+
     "github.com/ekyoung/personal-site-go/server/root"
     "github.com/ekyoung/personal-site-go/server/trips"
 )
 
 func main() {
+    rootController := &root.RootController{}
+
+    tripRepo := libTrips.NewHardcodedTripRepository()
+    tripController := trips.NewTripController(tripRepo, rootController)
+
     r := gin.New()
     r.Use(gin.Logger())
     r.Use(nice.Recovery("error", gin.H{
@@ -22,16 +29,16 @@ func main() {
 
     r.HTMLRender = createMyRender()
 
-    r.GET("/", root.IndexController)
+    r.GET("/", rootController.Index)
 
-    r.GET("/trips", trips.IndexController)
-    r.GET("/trips/:tripId", trips.GalleryController)
-    r.GET("/trips/:tripId/slide-show", trips.SlideShowController)
+    r.GET("/trips", tripController.Index)
+    r.GET("/trips/:tripId", tripController.Gallery)
+    r.GET("/trips/:tripId/slide-show", tripController.SlideShow)
 
-    r.GET("/about-this-site", root.AboutThisSiteController)
-    r.GET("/resume", root.ResumeController)
+    r.GET("/about-this-site", rootController.AboutThisSite)
+    r.GET("/resume", rootController.Resume)
 
-    r.NoRoute(root.PageNotFoundController)
+    r.NoRoute(rootController.PageNotFound)
 
     r.Run() // listen and server on 0.0.0.0:8080
 }
