@@ -1,7 +1,6 @@
 package main
 
 import (
-    "errors"
     "html/template"
     "net/http"
 
@@ -24,22 +23,6 @@ func main() {
     r.HTMLRender = createMyRender()
 
     r.GET("/", func(c *gin.Context) {
-        if false {
-            panic("Aw, snap!")
-        }
-
-        if false {
-            c.Error(errors.New("This is an error, not a panic.")) //Add an error to the list for the global error handler to deal with
-
-            c.Abort() //Don't run any subsequent handlers
-
-            c.HTML(http.StatusInternalServerError, "error", gin.H{ //Render a pretty error page
-                "title": "Error",
-            })
-
-            return //Stop executing this handler
-        }
-
         c.HTML(http.StatusOK, "home", gin.H{
             "title":        "Home",
             "isHomeActive": true,
