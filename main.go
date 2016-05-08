@@ -2,13 +2,13 @@ package main
 
 import (
     "html/template"
-    "net/http"
 
     "github.com/ekyoung/gin-nice-recovery"
     "github.com/gin-gonic/contrib/renders/multitemplate"
     "github.com/gin-gonic/gin"
 
-    "github.com/ekyoung/personal-site-go/lib/trips"
+    "github.com/ekyoung/personal-site-go/server/root"
+    "github.com/ekyoung/personal-site-go/server/trips"
 )
 
 func main() {
@@ -22,83 +22,16 @@ func main() {
 
     r.HTMLRender = createMyRender()
 
-    r.GET("/", func(c *gin.Context) {
-        c.HTML(http.StatusOK, "home", gin.H{
-            "title":        "Home",
-            "isHomeActive": true,
-        })
-    })
+    r.GET("/", root.IndexController)
 
-    r.GET("/trips", func(c *gin.Context) {
-        tripRepo := trips.NewTripRepository()
-        trips := tripRepo.All()
+    r.GET("/trips", trips.IndexController)
+    r.GET("/trips/:tripId", trips.GalleryController)
+    r.GET("/trips/:tripId/slide-show", trips.SlideShowController)
 
-        c.HTML(http.StatusOK, "trips", gin.H{
-            "title":         "Trips",
-            "isTripsActive": true,
-            "trips":         trips,
-        })
-    })
+    r.GET("/about-this-site", root.AboutThisSiteController)
+    r.GET("/resume", root.ResumeController)
 
-    r.GET("/trips/:tripId", func(c *gin.Context) {
-        tripId := c.Param("tripId")
-
-        tripRepo := trips.NewTripRepository()
-        trip := tripRepo.Lookup(tripId)
-
-        if trip == nil {
-            renderPageNotFound(c)
-            return
-        }
-
-        c.HTML(http.StatusOK, "trips/gallery", gin.H{
-            "title":         "Trips",
-            "isTripsActive": true,
-            "trip":          trip,
-        })
-    })
-
-    r.GET("/trips/:tripId/slide-show", func(c *gin.Context) {
-        tripId := c.Param("tripId")
-
-        tripRepo := trips.NewTripRepository()
-        trip := tripRepo.Lookup(tripId)
-
-        if trip == nil {
-            renderPageNotFound(c)
-            return
-        }
-
-        c.HTML(http.StatusOK, "trips/slide-show", gin.H{
-            "title":         "Trips",
-            "isTripsActive": true,
-            "trip":          trip,
-        })
-    })
-
-    r.GET("/about-this-site", func(c *gin.Context) {
-        c.HTML(http.StatusOK, "about-this-site", gin.H{
-            "title":                 "About This Site",
-            "isAboutThisSiteActive": true,
-        })
-    })
-
-    r.GET("/resume", func(c *gin.Context) {
-        c.HTML(http.StatusOK, "resume", gin.H{
-            "title":          "Resume",
-            "isResumeActive": true,
-        })
-    })
-
-    r.GET("/error", func(c *gin.Context) {
-        c.HTML(http.StatusOK, "error", gin.H{
-            "title": "Error",
-        })
-    })
-
-    r.NoRoute(func(c *gin.Context) {
-        renderPageNotFound(c)
-    })
+    r.NoRoute(root.PageNotFoundController)
 
     r.Run() // listen and server on 0.0.0.0:8080
 }
@@ -115,10 +48,4 @@ func createMyRender() multitemplate.Render {
     r.Add("page-not-found", template.Must(template.New("page-not-found.view.tmpl").Delims("[[", "]]").ParseFiles("server/root/page-not-found.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")))
 
     return r
-}
-
-func renderPageNotFound(c *gin.Context) {
-    c.HTML(http.StatusNotFound, "page-not-found", gin.H{
-        "title": "Page Not Found",
-    })
 }
