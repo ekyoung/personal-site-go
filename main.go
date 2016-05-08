@@ -103,6 +103,12 @@ func main() {
         })
     })
 
+    r.NoRoute(func(c *gin.Context) {
+        c.HTML(http.StatusNotFound, "page-not-found", gin.H{
+            "title": "Page Not Found",
+        })
+    })
+
     r.Run() // listen and server on 0.0.0.0:8080
 }
 
@@ -115,6 +121,7 @@ func createMyRender() multitemplate.Render {
     r.Add("about-this-site", template.Must(template.New("about-this-site.view.tmpl").Delims("[[", "]]").ParseFiles("server/root/about-this-site.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")))
     r.Add("resume", template.Must(template.New("resume.view.tmpl").Delims("[[", "]]").ParseFiles("server/root/resume.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")))
     r.Add("error", template.Must(template.New("error.view.tmpl").Delims("[[", "]]").ParseFiles("server/root/error.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")))
+    r.Add("page-not-found", template.Must(template.New("page-not-found.view.tmpl").Delims("[[", "]]").ParseFiles("server/root/page-not-found.view.tmpl", "server/_shared/header.partial.tmpl", "server/_shared/main.layout.tmpl")))
 
     return r
 }
