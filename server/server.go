@@ -23,9 +23,7 @@ func (s *Server) Run() {
 
     r := gin.New()
     r.Use(gin.Logger())
-    r.Use(nice.Recovery("error", gin.H{
-        "title": "Error",
-    }))
+    r.Use(nice.Recovery(rootController.RecoveryHandler))
 
     r.Static("/browser", "./browser")
 

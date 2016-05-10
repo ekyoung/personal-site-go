@@ -34,3 +34,9 @@ func (ctrl *RootController) PageNotFound(c *gin.Context) {
         "title": "Page Not Found",
     })
 }
+
+func (ctrl *RootController) RecoveryHandler(c *gin.Context, err interface{}) {
+    c.HTML(http.StatusInternalServerError, "error", gin.H{
+        "title": "Error",
+    })
+}
