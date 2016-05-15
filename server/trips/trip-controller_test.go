@@ -1,8 +1,10 @@
-package trips
+package trips_test
 
 import (
+	. "github.com/ekyoung/personal-site-go/server/trips"
+
 	"github.com/golang/mock/gomock"
-	"testing"
+	. "github.com/onsi/ginkgo"
 
 	libTrips "github.com/ekyoung/personal-site-go/lib/trips"
 
@@ -11,52 +13,63 @@ import (
 	mockServerTrips "github.com/ekyoung/personal-site-go/server/trips/mocks"
 )
 
-func TestGallery_TripFound(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish() //VERIFY (aka ASSERT for this test)
+var _ = Describe("Trip Controller", func() {
+	var (
+		ctrl *gomock.Controller
 
-	//Setup that will be common to all tests
-	mockContext := mockWrapper.NewMockContext(ctrl)
-	mockTripRepo := mockLibTrips.NewMockTripRepository(ctrl)
-	mockPageNotFounder := mockServerTrips.NewMockPageNotFounder(ctrl)
-	controller := NewTripController(mockTripRepo, mockPageNotFounder)
+		mockContext        *mockWrapper.MockContext
+		mockTripRepo       *mockLibTrips.MockTripRepository
+		mockPageNotFounder *mockServerTrips.MockPageNotFounder
 
-	//RECORD aka Training my mocks aka ARRANGE
-	tripID := "fun-trip"
-	mockContext.EXPECT().Param("tripId").Return(tripID)
+		controller *TripController
+	)
 
-	trip := &libTrips.Trip{
-		Id:   tripID,
-		Name: "Fun Trip",
-	}
-	mockTripRepo.EXPECT().Lookup(tripID).Return(trip)
+	BeforeEach(func() {
+		ctrl = gomock.NewController(GinkgoT())
 
-	//I really just want to assert that HTML is called with the right values
-	mockContext.EXPECT().HTML(200, "trips/gallery", gomock.Any())
+		mockContext = mockWrapper.NewMockContext(ctrl)
+		mockTripRepo = mockLibTrips.NewMockTripRepository(ctrl)
+		mockPageNotFounder = mockServerTrips.NewMockPageNotFounder(ctrl)
 
-	//REPLAY aka ACT
-	controller.Gallery(mockContext)
-}
+		controller = NewTripController(mockTripRepo, mockPageNotFounder)
+	})
 
-func TestGallery_TripNotFound(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish() //VERIFY (aka ASSERT for this test)
+	AfterEach(func() {
+		ctrl.Finish()
+	})
 
-	//Setup that will be common to all tests
-	mockContext := mockWrapper.NewMockContext(ctrl)
-	mockTripRepo := mockLibTrips.NewMockTripRepository(ctrl)
-	mockPageNotFounder := mockServerTrips.NewMockPageNotFounder(ctrl)
-	controller := NewTripController(mockTripRepo, mockPageNotFounder)
+	Describe("Gallery Action", func() {
+		It("should render an HTML template when the trip is found", func() {
+			//RECORD aka Training my mocks aka ARRANGE
+			tripID := "fun-trip"
+			mockContext.EXPECT().Param("tripId").Return(tripID)
 
-	//RECORD aka Training my mocks aka ARRANGE
-	tripID := "fun-trip"
-	mockContext.EXPECT().Param("tripId").Return(tripID)
+			trip := &libTrips.Trip{
+				Id:   tripID,
+				Name: "Fun Trip",
+			}
+			mockTripRepo.EXPECT().Lookup(tripID).Return(trip)
 
-	mockTripRepo.EXPECT().Lookup(tripID).Return(nil)
+			//I really just want to assert that HTML is called with the right values
+			mockContext.EXPECT().HTML(200, "trips/gallery", gomock.Any())
 
-	//I really just want to assert that PageNotFound is called
-	mockPageNotFounder.EXPECT().PageNotFound(mockContext)
+			//REPLAY aka ACT
+			controller.Gallery(mockContext)
+		})
 
-	//REPLAY aka ACT
-	controller.Gallery(mockContext)
-}
+		It("should call PageNotFound when the trip is not found", func() {
+			//RECORD aka Training my mocks aka ARRANGE
+			tripID := "fun-trip"
+			mockContext.EXPECT().Param("tripId").Return(tripID)
+
+			mockTripRepo.EXPECT().Lookup(tripID).Return(nil)
+
+			//I really just want to assert that PageNotFound is called
+			mockPageNotFounder.EXPECT().PageNotFound(mockContext)
+
+			//REPLAY aka ACT
+			controller.Gallery(mockContext)
+
+		})
+	})
+})
