@@ -4,7 +4,7 @@
 package mock_trips
 
 import (
-	gin "github.com/gin-gonic/gin"
+	wrapper "github.com/ekyoung/personal-site-go/gin-wrapper"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -29,7 +29,7 @@ func (_m *MockPageNotFounder) EXPECT() *_MockPageNotFounderRecorder {
 	return _m.recorder
 }
 
-func (_m *MockPageNotFounder) PageNotFound(c *gin.Context) {
+func (_m *MockPageNotFounder) PageNotFound(c wrapper.Context) {
 	_m.ctrl.Call(_m, "PageNotFound", c)
 }
 

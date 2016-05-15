@@ -1,59 +1,33 @@
 package trips
 
 import (
-	"net/http/httptest"
+	"github.com/golang/mock/gomock"
 	"testing"
 
-	"github.com/golang/mock/gomock"
-
-	"github.com/gin-gonic/gin"
-
+	mockWrapper "github.com/ekyoung/personal-site-go/gin-wrapper/mocks"
 	mockLibTrips "github.com/ekyoung/personal-site-go/lib/trips/mocks"
 	mockServerTrips "github.com/ekyoung/personal-site-go/server/trips/mocks"
 )
 
 func TestGallery_TripNotFound(t *testing.T) {
 	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
+	defer ctrl.Finish() //VERIFY (aka ASSERT for this test)
 
-	tripID := "fun-trip"
-	mockedContext, _ := mockContext(map[string]string{
-		"tripId": tripID,
-	})
-
+	//Setup that will be common to all tests
+	mockContext := mockWrapper.NewMockContext(ctrl)
 	mockTripRepo := mockLibTrips.NewMockTripRepository(ctrl)
-	mockTripRepo.EXPECT().Lookup(tripID).Return(nil)
-
 	mockPageNotFounder := mockServerTrips.NewMockPageNotFounder(ctrl)
-	pageNotFoundCalled := false
-	mockPageNotFounder.EXPECT().PageNotFound(mockedContext).Do(func(c *gin.Context) {
-		pageNotFoundCalled = true
-	})
-
 	controller := NewTripController(mockTripRepo, mockPageNotFounder)
 
-	controller.Gallery(mockedContext)
+	//RECORD aka Training my mocks aka ARRANGE
+	tripID := "fun-trip"
+	mockContext.EXPECT().Param("tripId").Return(tripID)
 
-	if !pageNotFoundCalled {
-		t.Error("Expected PageNotFound to be called, but it was not.")
-	}
-}
+	mockTripRepo.EXPECT().Lookup(tripID).Return(nil)
 
-func mockContext(params map[string]string) (*gin.Context, *httptest.ResponseRecorder) {
+	//I really just want to assert that PageNotFound is called
+	mockPageNotFounder.EXPECT().PageNotFound(mockContext)
 
-	gin.SetMode(gin.TestMode)
-
-	context, responseRecorder, _ := gin.CreateTestContext()
-
-	var paramsSlice []gin.Param
-	for key, value := range params {
-		paramsSlice = append(paramsSlice, gin.Param{
-			Key:   key,
-			Value: value,
-		})
-	}
-
-	context.Params = paramsSlice
-
-	return context, responseRecorder
+	//REPLAY aka ACT
+	controller.Gallery(mockContext)
 }
