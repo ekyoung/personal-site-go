@@ -19,6 +19,8 @@ var _ = Describe("Trip Controller", func() {
 		mockPageNotFounder *serverTripsMocks.PageNotFounder
 
 		controller *TripController
+
+		trip *libTrips.Trip
 	)
 
 	tripId := "fun-trip"
@@ -39,7 +41,7 @@ var _ = Describe("Trip Controller", func() {
 	Describe("Gallery Action", func() {
 		It("should render an HTML template when the trip is found", func() {
 			//ARRANGE
-			trip := &libTrips.Trip{
+			trip = &libTrips.Trip{
 				Id:   tripId,
 				Name: "Fun Trip",
 			}
@@ -54,10 +56,40 @@ var _ = Describe("Trip Controller", func() {
 
 		It("should call PageNotFound when the trip is not found", func() {
 			//ARRANGE
-			mockTripRepo.On("Lookup", tripId).Return((*libTrips.Trip)(nil))
+			trip = nil
+			mockTripRepo.On("Lookup", tripId).Return(trip)
 
 			//ACT
 			controller.Gallery(mockContext)
+
+			//ASSERT
+			mockPageNotFounder.AssertCalled(GinkgoT(), "PageNotFound", mockContext)
+		})
+	})
+
+	Describe("Slide Show Action", func() {
+		It("Should render an HTML template when the trip is found", func() {
+			//ARRANGE
+			trip = &libTrips.Trip{
+				Id:   tripId,
+				Name: "Fun Trip",
+			}
+			mockTripRepo.On("Lookup", tripId).Return(trip)
+
+			//ACT
+			controller.SlideShow(mockContext)
+
+			//ASSERT
+			mockContext.AssertCalled(GinkgoT(), "HTML", 200, "trips/slide-show", mock.Anything)
+		})
+
+		It("should call PageNotFound when the trip is not found", func() {
+			//ARRANGE
+			trip = nil
+			mockTripRepo.On("Lookup", tripId).Return(trip)
+
+			//ACT
+			controller.SlideShow(mockContext)
 
 			//ASSERT
 			mockPageNotFounder.AssertCalled(GinkgoT(), "PageNotFound", mockContext)
