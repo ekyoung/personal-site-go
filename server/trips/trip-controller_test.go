@@ -6,29 +6,31 @@ import (
 	. "github.com/onsi/ginkgo"
 	"github.com/stretchr/testify/mock"
 
-	mockWrapper "github.com/ekyoung/personal-site-go/gin-wrapper/mocks"
-	mockLibTrips "github.com/ekyoung/personal-site-go/lib/trips/mocks"
-	mockServerTrips "github.com/ekyoung/personal-site-go/server/trips/mocks"
-
+	wrapperMocks "github.com/ekyoung/personal-site-go/gin-wrapper/mocks"
 	libTrips "github.com/ekyoung/personal-site-go/lib/trips"
+	libTripsMocks "github.com/ekyoung/personal-site-go/lib/trips/mocks"
+	serverTripsMocks "github.com/ekyoung/personal-site-go/server/trips/mocks"
 )
 
 var _ = Describe("Trip Controller", func() {
 	var (
-		mockContext        *mockWrapper.Context
-		mockTripRepo       *mockLibTrips.TripRepository
-		mockPageNotFounder *mockServerTrips.PageNotFounder
+		mockContext        *wrapperMocks.Context
+		mockTripRepo       *libTripsMocks.TripRepository
+		mockPageNotFounder *serverTripsMocks.PageNotFounder
 
 		controller *TripController
 	)
 
+	tripId := "fun-trip"
+
 	BeforeEach(func() {
-		mockContext = new(mockWrapper.Context)
+		mockContext = new(wrapperMocks.Context)
+		mockContext.On("Param", "tripId").Return(tripId)
 		mockContext.On("HTML", mock.Anything, mock.Anything, mock.Anything).Return()
 
-		mockTripRepo = new(mockLibTrips.TripRepository)
+		mockTripRepo = new(libTripsMocks.TripRepository)
 
-		mockPageNotFounder = new(mockServerTrips.PageNotFounder)
+		mockPageNotFounder = new(serverTripsMocks.PageNotFounder)
 		mockPageNotFounder.On("PageNotFound", mock.Anything).Return()
 
 		controller = NewTripController(mockTripRepo, mockPageNotFounder)
@@ -37,14 +39,11 @@ var _ = Describe("Trip Controller", func() {
 	Describe("Gallery Action", func() {
 		It("should render an HTML template when the trip is found", func() {
 			//ARRANGE
-			tripID := "fun-trip"
-			mockContext.On("Param", "tripId").Return(tripID)
-
 			trip := &libTrips.Trip{
-				Id:   tripID,
+				Id:   tripId,
 				Name: "Fun Trip",
 			}
-			mockTripRepo.On("Lookup", tripID).Return(trip)
+			mockTripRepo.On("Lookup", tripId).Return(trip)
 
 			//ACT
 			controller.Gallery(mockContext)
@@ -55,10 +54,7 @@ var _ = Describe("Trip Controller", func() {
 
 		It("should call PageNotFound when the trip is not found", func() {
 			//ARRANGE
-			tripID := "fun-trip"
-			mockContext.On("Param", "tripId").Return(tripID)
-
-			mockTripRepo.On("Lookup", tripID).Return((*libTrips.Trip)(nil))
+			mockTripRepo.On("Lookup", tripId).Return((*libTrips.Trip)(nil))
 
 			//ACT
 			controller.Gallery(mockContext)
