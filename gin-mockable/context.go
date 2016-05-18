@@ -1,4 +1,4 @@
-package wrapper
+package mockable
 
 import (
 	"github.com/gin-gonic/gin"
@@ -9,8 +9,10 @@ type Context interface {
 	HTML(code int, name string, obj interface{})
 }
 
-func Wrap(f func(Context)) func(*gin.Context) {
+type HandlerFunc func(Context)
+
+func Handler(fn HandlerFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		f(c)
+		fn(c)
 	}
 }

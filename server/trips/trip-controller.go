@@ -5,13 +5,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/ekyoung/personal-site-go/gin-wrapper"
+	"github.com/ekyoung/personal-site-go/gin-mockable"
 
 	"github.com/ekyoung/personal-site-go/lib/trips"
 )
 
 type PageNotFounder interface {
-	PageNotFound(c wrapper.Context)
+	PageNotFound(c mockable.Context)
 }
 
 type TripController struct {
@@ -26,7 +26,7 @@ func NewTripController(tripRepository trips.TripRepository, pageNotFounder PageN
 	}
 }
 
-func (ctrl *TripController) Index(c wrapper.Context) {
+func (ctrl *TripController) Index(c mockable.Context) {
 	trips := ctrl.tripRepository.All()
 
 	c.HTML(http.StatusOK, "trips", gin.H{
@@ -36,7 +36,7 @@ func (ctrl *TripController) Index(c wrapper.Context) {
 	})
 }
 
-func (ctrl *TripController) Gallery(c wrapper.Context) {
+func (ctrl *TripController) Gallery(c mockable.Context) {
 	tripId := c.Param("tripId")
 
 	trip := ctrl.tripRepository.Lookup(tripId)
@@ -53,7 +53,7 @@ func (ctrl *TripController) Gallery(c wrapper.Context) {
 	})
 }
 
-func (ctrl *TripController) SlideShow(c wrapper.Context) {
+func (ctrl *TripController) SlideShow(c mockable.Context) {
 	tripId := c.Param("tripId")
 
 	trip := ctrl.tripRepository.Lookup(tripId)

@@ -6,7 +6,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	"github.com/stretchr/testify/mock"
 
-	wrapperMocks "github.com/ekyoung/personal-site-go/gin-wrapper/mocks"
+	ginMocks "github.com/ekyoung/personal-site-go/gin-mockable/mocks"
 	libTrips "github.com/ekyoung/personal-site-go/lib/trips"
 	libTripsMocks "github.com/ekyoung/personal-site-go/lib/trips/mocks"
 	serverTripsMocks "github.com/ekyoung/personal-site-go/server/trips/mocks"
@@ -14,7 +14,7 @@ import (
 
 var _ = Describe("Trip Controller", func() {
 	var (
-		mockContext        *wrapperMocks.Context
+		mockContext        *ginMocks.Context
 		mockTripRepo       *libTripsMocks.TripRepository
 		mockPageNotFounder *serverTripsMocks.PageNotFounder
 
@@ -26,7 +26,7 @@ var _ = Describe("Trip Controller", func() {
 	tripId := "fun-trip"
 
 	BeforeEach(func() {
-		mockContext = new(wrapperMocks.Context)
+		mockContext = new(ginMocks.Context)
 		mockContext.On("Param", "tripId").Return(tripId)
 		mockContext.On("HTML", mock.Anything, mock.Anything, mock.Anything).Return()
 

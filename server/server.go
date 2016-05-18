@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ekyoung/gin-nice-recovery"
-	"github.com/ekyoung/personal-site-go/gin-wrapper"
+	"github.com/ekyoung/personal-site-go/gin-mockable"
 	"github.com/gin-gonic/contrib/renders/multitemplate"
 
 	libTrips "github.com/ekyoung/personal-site-go/lib/trips"
@@ -31,16 +31,16 @@ func (s *Server) Run() {
 
 	r.HTMLRender = createMyRender()
 
-	r.GET("/", wrapper.Wrap(rootController.Index))
+	r.GET("/", mockable.Handler(rootController.Index))
 
-	r.GET("/trips", wrapper.Wrap(tripController.Index))
-	r.GET("/trips/:tripId", wrapper.Wrap(tripController.Gallery))
-	r.GET("/trips/:tripId/slide-show", wrapper.Wrap(tripController.SlideShow))
+	r.GET("/trips", mockable.Handler(tripController.Index))
+	r.GET("/trips/:tripId", mockable.Handler(tripController.Gallery))
+	r.GET("/trips/:tripId/slide-show", mockable.Handler(tripController.SlideShow))
 
-	r.GET("/about-this-site", wrapper.Wrap(rootController.AboutThisSite))
-	r.GET("/resume", wrapper.Wrap(rootController.Resume))
+	r.GET("/about-this-site", mockable.Handler(rootController.AboutThisSite))
+	r.GET("/resume", mockable.Handler(rootController.Resume))
 
-	r.NoRoute(wrapper.Wrap(rootController.PageNotFound))
+	r.NoRoute(mockable.Handler(rootController.PageNotFound))
 
 	r.Run() // listen and server on 0.0.0.0:8080
 }
