@@ -42,7 +42,7 @@ func (ctrl *TripController) Gallery(c mockable.Context) {
 	trip := ctrl.tripRepository.Lookup(tripId)
 
 	if trip == nil {
-		//ctrl.pageNotFounder.PageNotFound(c)
+		ctrl.pageNotFounder.PageNotFound(c)
 		return
 	}
 
