@@ -14,7 +14,7 @@ import (
 func TestTrips(t *testing.T) {
 	RegisterFailHandler(Fail)
 	testReportsPath, _ := filepath.Abs("../../test-reports")
-	os.MkdirAll(testReportsPath, 0644)
+	os.MkdirAll(testReportsPath, 0777)
 	junitReporter := reporters.NewJUnitReporter(filepath.Join(testReportsPath, "server-trips-junit.xml"))
 	RunSpecsWithDefaultAndCustomReporters(t, "Trips Suite", []Reporter{junitReporter})
 }
