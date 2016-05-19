@@ -1,0 +1,6 @@
+test:
+  pre:
+   - mkdir ./test-reports
+   
+  post:
+   - mv ./test-reports/* $CIRCLE_TEST_REPORTS
