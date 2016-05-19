@@ -1,5 +1,5 @@
 test:
-  pre:
+  post:
+   # Run the tests a second time with output in junit format.
    - go get -u github.com/jstemmer/go-junit-report
-  override:
    - go test -v -race ./... | go-junit-report > $CIRCLE_TEST_REPORTS/report.xml
