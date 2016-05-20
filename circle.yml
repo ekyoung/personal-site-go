@@ -11,7 +11,7 @@ deployment:
     branch: develop
     codedeploy:
       personal-site-go:
-        application_root: /
+        application_root: /code-deploy
         revision_location:
           revision_type: S3
           s3_location:
