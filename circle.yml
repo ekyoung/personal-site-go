@@ -2,8 +2,8 @@ test:
   post:
    - mv ./test-reports/* $CIRCLE_TEST_REPORTS
    - mkdir ./code-deploy/content
-   - cp ./personal-site-go.exe ./code-deploy/content/
-   - cp ./browser ./code-deploy/content/browser
+   - cp ./personal-site-go ./code-deploy/content/
+   - cp ./browser/* ./code-deploy/content/browser/
    - find ./server -name \*.tmpl -exec cp --parent '{}' "./code-deploy/content/server" ";"
 
 deployment:
