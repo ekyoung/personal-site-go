@@ -1,3 +1,23 @@
 test:
   post:
    - mv ./test-reports/* $CIRCLE_TEST_REPORTS
+
+deployment:
+  production:
+    branch: develop
+    commands:
+     - mkdir ./code-deploy/content
+     - cp ./personal-site-go.exe ./code-deploy/content/
+     - cp ./browser ./code-deploy/content/browser
+     - find ./server -name \*.tmpl -exec cp --parent '{}' "./code-deploy/content/server" ";"
+    codedeploy:
+      personal-site-go:
+        application_root: ./code-deploy
+        revision_location:
+          revision_type: S3
+          s3_location:
+            bucket: ethan-young-code-deploy
+            key_pattern: personal-site-go/production/{SHORT_COMMIT}-{BUILD_NUM}
+        region: us-east-1
+        deployment_group: production
+        deployment_config: CodeDeployDefault.OneAtATime
