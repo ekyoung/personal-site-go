@@ -4,7 +4,7 @@ test:
    - mkdir ./code-deploy/content
    - cp ./personal-site-go ./code-deploy/content/
    - cp -r ./browser/ ./code-deploy/content/
-   - find ./server -name \*.tmpl -exec cp --parent '{}' "./code-deploy/content/server" ";"
+   - find ./server -name \*.tmpl -exec cp --parent '{}' "./code-deploy/content/" ";"
 
 deployment:
   production:
