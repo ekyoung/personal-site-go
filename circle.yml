@@ -3,7 +3,7 @@ test:
    - mv ./test-reports/* $CIRCLE_TEST_REPORTS
    - mkdir ./code-deploy/content
    - cp ./personal-site-go ./code-deploy/content/
-   - cp ./browser/* ./code-deploy/content/browser/
+   - cp -r ./browser/ ./code-deploy/content/
    - find ./server -name \*.tmpl -exec cp --parent '{}' "./code-deploy/content/server" ";"
 
 deployment:
