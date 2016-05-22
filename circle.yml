@@ -8,7 +8,7 @@ test:
 
 deployment:
   production:
-    branch: develop
+    branch: master
     codedeploy:
       personal-site-go:
         application_root: /code-deploy
