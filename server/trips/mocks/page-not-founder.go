@@ -3,7 +3,7 @@ package mocks
 import (
 	"github.com/stretchr/testify/mock"
 
-	"github.com/ekyoung/personal-site-go/gin-mockable"
+	"github.com/ekyoung/gin-mockable"
 )
 
 type PageNotFounder struct {

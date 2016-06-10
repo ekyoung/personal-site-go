@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/ekyoung/personal-site-go/gin-mockable"
+	"github.com/ekyoung/gin-mockable"
 )
 
 type RootController struct{}

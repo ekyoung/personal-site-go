@@ -5,8 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"github.com/ekyoung/gin-mockable"
 	"github.com/ekyoung/gin-nice-recovery"
-	"github.com/ekyoung/personal-site-go/gin-mockable"
 	"github.com/gin-gonic/contrib/renders/multitemplate"
 
 	libTrips "github.com/ekyoung/personal-site-go/lib/trips"
