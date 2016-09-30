@@ -6,7 +6,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	"github.com/stretchr/testify/mock"
 
-	ginMocks "github.com/ekyoung/personal-site-go/gin-mockable/mocks"
+	ginMocks "github.com/ekyoung/gin-mockable/mocks"
 	libTrips "github.com/ekyoung/personal-site-go/lib/trips"
 	libTripsMocks "github.com/ekyoung/personal-site-go/lib/trips/mocks"
 	serverTripsMocks "github.com/ekyoung/personal-site-go/server/trips/mocks"
