@@ -61,12 +61,12 @@ jobs:
             cp -r ./browser/ ./code-deploy/content/
             find ./server -name \*.tmpl -exec cp --parent '{}' "./code-deploy/content/" ";"
       - aws-cli/setup
-      - push-bundle:
+      - aws-code-deploy/push-bundle:
           application-name: personal-site-go
           bundle-bucket: ethan-young-code-deploy-us-west-2
           bundle-key: personal-site-go/production/{SHORT_COMMIT}-{BUILD_NUM}
           bundle-source: ./code-deploy
-      - deploy-bundle:
+      - aws-code-deploy/deploy-bundle:
           application-name: personal-site-go
           bundle-bucket: ethan-young-code-deploy-us-west-2
           bundle-key: personal-site-go/production/{SHORT_COMMIT}-{BUILD_NUM}
