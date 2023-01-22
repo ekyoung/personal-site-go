@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  aws-code-deploy: circleci/aws-code-deploy@2.0.0
 jobs:
   build:
     working_directory: ~/repo
@@ -19,6 +21,10 @@ jobs:
       - run:
           name: Build the server
           command: go build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - personal-site-go
   test:
     working_directory: ~/repo
     docker:
@@ -40,16 +46,14 @@ jobs:
           command: go test ./...
   deploy:
     working_directory: ~/repo
-    docker:
-      - image: cimg/go:1.19.5
+    executor: aws-cli/default
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - go-mod-v4-{{ checksum "go.sum" }}
+      - attach_workspace:
+          at: .
       - run:
-          name: Just testing with echo
-          command: echo "Would run deploy here"
+          name: Check for binary
+          command: ls
 
 workflows:
   version: 2
