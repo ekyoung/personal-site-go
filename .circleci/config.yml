@@ -64,12 +64,12 @@ jobs:
       - aws-code-deploy/push-bundle:
           application-name: personal-site-go
           bundle-bucket: ethan-young-code-deploy-us-west-2
-          bundle-key: personal-site-go/production/{SHORT_COMMIT}-{BUILD_NUM}
+          bundle-key: personal-site-go/production/<< pipeline.git.tag >>
           bundle-source: ./code-deploy
       - aws-code-deploy/deploy-bundle:
           application-name: personal-site-go
           bundle-bucket: ethan-young-code-deploy-us-west-2
-          bundle-key: personal-site-go/production/{SHORT_COMMIT}-{BUILD_NUM}
+          bundle-key: personal-site-go/production/<< pipeline.git.tag >>
           deployment-config: CodeDeployDefault.OneAtATime
           deployment-group: production
 
