@@ -60,7 +60,18 @@ jobs:
             cp ./personal-site-go ./code-deploy/content/
             cp -r ./browser/ ./code-deploy/content/
             find ./server -name \*.tmpl -exec cp --parent '{}' "./code-deploy/content/" ";"
-            ls ./code-deploy/content
+      - aws-cli/setup
+      - push-bundle:
+          application-name: personal-site-go
+          bundle-bucket: ethan-young-code-deploy-us-west-2
+          bundle-key: personal-site-go/production/{SHORT_COMMIT}-{BUILD_NUM}
+          bundle-source: ./code-deploy
+      - deploy-bundle:
+          application-name: personal-site-go
+          bundle-bucket: ethan-young-code-deploy-us-west-2
+          bundle-key: personal-site-go/production/{SHORT_COMMIT}-{BUILD_NUM}
+          deployment-config: CodeDeployDefault.OneAtATime
+          deployment-group: production
 
 workflows:
   version: 2
@@ -69,18 +80,18 @@ workflows:
       - build:
           filters:  # required since `test` has tag filters AND requires `build`
             tags:
-              only: /^config-test.*/
+              only: /^\d{4}\.\d{2}\.\d{2}\.\d{2}.*/
       - test:
           requires:
             - build
           filters:  # required since `deploy` has tag filters AND requires `test`
             tags:
-              only: /^config-test.*/
+              only: /^\d{4}\.\d{2}\.\d{2}\.\d{2}.*/
       - deploy:
           requires:
             - test
           filters:
             tags:
-              only: /^config-test.*/
+              only: /^\d{4}\.\d{2}\.\d{2}\.\d{2}.*/
             branches:
               ignore: /.*/
